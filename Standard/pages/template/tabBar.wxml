@@ -1,0 +1,11 @@
+<template name="tabBar">
+  <view class="flex-h flex-hsb tab-bar" style="z-index:9999;width:100%;position:fixed;{{tabBar.position=='top'? 'top: 0' : 'bottom: 0'}};height:45px;padding-top:5px;background:{{tabBar.backgroundColor}};color:{{tabBar.color}};{{tabBar.borderStyle? (tabBar.position=='top'? 'border-bottom: solid 1px '+tabBar.borderStyle + ';' : 'border-top: solid 1px '+tabBar.borderStyle + ';') : ''}}">
+  <block wx:for="{{tabBar.list}}" wx:key="pagePath">
+    <view bindtap="tourl" data-url="{{item.pagePath}}" open-type="redirect" class="menu-item" style="float:left;width:25%;font-size:12px;text-align:center;{{item.active? 'color: '+(item.selectedColor? item.selectedColor : tabBar.selectedColor) : ''}}">
+      <image src="{{item.selectedIconPath}}" wx:if="{{item.active}}" style="width:50rpx;text-align: center;" mode="widthFix"></image>
+      <image src="{{item.iconPath}}" wx:if="{{!item.active}}" style="width:50rpx;text-align: center;" mode="widthFix"></image>
+      <text style="width:100%;text-align:center;display: block;">{{item.text}}</text>
+    </view>
+    </block>
+  </view>
+</template>

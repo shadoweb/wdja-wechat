@@ -1,0 +1,88 @@
+<!--pages/index/index.wxml-->
+<import src="../../pages/wxParse/wxParse.wxml"/>
+<import src="../../pages/template/tabBar.wxml" />
+<template is="tabBar" data="{{tabBar: tabBar}}" />
+<swiper
+    indicator-dots="{{indicatorDots}}"
+    autoplay="{{autoplay}}"
+    vertical="{{vertical}}"
+    duration="{{duration}}"
+    bindchange="bindchange"
+    circular="{{circular}}"
+    interval="{{interval}}"
+    style="height:{{imgheights[current]}}rpx;">
+    <block wx:for="{{slide}}" wx:key="{{index}}">  
+        <swiper-item>
+           <view bindtap="tourl"  data-url="{{item.url}}" open-type="redirect" >
+            <image src="{{url}}/{{item.image}}" mode="aspectFit" bindload="imageLoad" class=".itemimage" style="height:{{imgheights[current]}}rpx;width:{{imgwidth}}rpx;"/>
+            </view>
+        </swiper-item>
+    </block>
+</swiper>
+<view class="nav" >
+  <view bindtap="tourl" data-url="/pages/index/index" open-type="redirect" class="menu-item">
+    <image src="/pages/template/img/tabBar_home_cur.png" mode="widthFix"></image>
+    <text>{{mhome}}</text>
+  </view>
+  <view bindtap="tourl" data-url="/pages/product/index" open-type="redirect" class="menu-item">
+    <image src="/pages/template/img/tabBar_product_cur.png" mode="widthFix"></image>
+    <text>{{mproduct}}</text>
+  </view>
+  <view bindtap="tourl" data-url="/pages/news/index" open-type="redirect" class="menu-item">
+    <image src="/pages/template/img/tabBar_news_cur.png" mode="widthFix"></image>
+    <text>{{mnews}}</text>
+  </view>
+  <view bindtap="tourl" data-url="/pages/contact/index" open-type="redirect" class="menu-item">
+    <image src="/pages/template/img/tabBar_contact_cur.png"  mode="widthFix"></image>
+    <text>{{mcontact}}</text>
+  </view>
+ </view>
+ <view class="search">
+  <form bindsubmit="search">
+    <input id="keywords" name="keywords" class="search-input" type="text" placeholder="请输入搜索词" />
+    <button class="btn"  formType="submit">产品搜索</button>
+  </form>
+ </view>
+<view class="product_title"><text class="title">产品推荐</text><text bindtap="tourl" data-url="/pages/product/index" class="more">更多>></text></view>
+<view class="product" wx:for="{{product}}" wx:for-item="products" wx:key="a" wx:for-index="idx">
+<view bindtap="tourl" data-url="/pages/product/detail?id={{products.pid}}&name={{products.topic}}" ><image src="{{url}}/{{products.image}}" class="slide-image"   
+            mode="widthFix"/></view>
+   <text>{{products.topic}}</text>
+ </view>
+<view class="news_title"><text class="title">新闻资讯</text><text bindtap="tourl" data-url="/pages/news/index" class="more">更多>></text></view>
+<view class="news" wx:for="{{news}}" wx:for-item="newss" wx:key="a" wx:for-index="idx">
+   <view class="list" >
+   <view bindtap="tourl" data-url="/pages/news/detail?id={{newss.nid}}&name={{newss.topic}}" ><text class="title">{{newss.topic}}</text></view>
+   <text class="time">{{newss.time}}</text>
+   </view>
+ </view>
+<view class="aboutus_title"><text class="title">关于我们</text><text bindtap="tourl" data-url="/pages/aboutus/index" class="more">更多>></text></view>
+<view class="aboutus" wx:for="{{aboutus}}" wx:for-item="items" wx:key="a" wx:for-index="idx">
+   <text>{{items.topic}}</text>
+   <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
+ </view>
+<view class="contact_title"><text class="title">在线留言</text></view>
+<view class="contact">
+    <form bindsubmit="formSubmit">
+        <view class="field clearfix">
+            <label for="name">标题</label>
+            <input id="name" name="topic" class="login-input" type="text" placeholder="请输入标题" value='{{form_info}}'/>
+        </view>
+        <view class="field clearfix">
+            <label for="name">QQ号</label>
+            <input id="name" name="qq" class="login-input" type="text" placeholder="请输入QQ号" value='{{form_info}}'/>
+        </view>
+        <view class="field clearfix">
+            <label for="name">Email</label>
+            <input id="name" name="email" class="login-input" type="text" placeholder="请输入邮箱" value='{{form_info}}'/>
+        </view>
+        <view class="field clearfix">
+            <label for="name">备注</label>
+                <input id="name" name="content" hidden="true" value="{{content}}" />
+                <textarea  bindblur="bindTextAreaBlur" bindfocus="bindTextAreaFocus"  name="textarea" placeholder="请输入您的需求" value='{{form_info}}'/>
+        </view>
+        <view class="field clearfix">
+        <button class="btn"  formType="submit">提交</button>
+        </view>
+    </form>
+    </view>

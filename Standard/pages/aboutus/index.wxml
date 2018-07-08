@@ -1,0 +1,8 @@
+<import src="../../pages/wxParse/wxParse.wxml"/>
+<import src="../../pages/template/tabBar.wxml" />
+<template is="tabBar" data="{{tabBar: tabBar}}" />
+<view class="content" wx:for="{{items}}" wx:for-item="item" wx:key="a" wx:for-index="idx">
+   <text class="title">{{item.topic}}</text>
+   <text class="info">{{item.time}}</text>
+   <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
+ </view>

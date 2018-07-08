@@ -1,0 +1,25 @@
+/* pages/news/search.wxss */
+.list{
+  width:96%;
+  margin:15px 2% 50px 2%;
+}
+.list .item{
+  width:98%;
+  margin:5px 1% 0 1%;
+  font-size: 13px;
+  padding-bottom: 4px;
+  border-bottom:1px solid #e3e3e3;
+}
+.list .item .title{
+  float:left;
+  width:70%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list .item .time{
+  float:right;
+  width:30%;
+  text-align: right;
+}

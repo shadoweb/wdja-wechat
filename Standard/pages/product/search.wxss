@@ -1,0 +1,29 @@
+/* pages/product/search.wxss */
+.list{
+  display: block;
+  width:96%;
+  margin:15px 2% 50px 2%;
+}
+.item{
+  width:47%;
+  margin-left:2%;
+  float:left;
+}
+navigator {
+height:auto;
+width:auto;
+display:block;
+}
+.item image{
+  width:100%;
+}
+.item text{
+  display: block;
+  width:90%;
+  padding:2px 5%;
+  text-align: center;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

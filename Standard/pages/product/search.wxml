@@ -1,0 +1,21 @@
+<!--pages/product/search.wxml-->
+<import src="../../pages/wxParse/wxParse.wxml"/>
+<import src="../../pages/template/tabBar.wxml" />
+<template is="tabBar" data="{{tabBar: tabBar}}" />
+
+<view class="container">  
+  <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;"  
+    class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll" >  
+    <view class="item" wx:for="{{list}}" wx:key="aa">  
+      <view bindtap="tourl" data-url="/pages/product/detail?id={{item.pid}}&name={{item.topic}}">
+        <image class="img" src="{{url}}/{{item.image}}" mode="widthFix"></image>
+      </view>
+      <text class="title">{{item.topic}}</text>
+    </view>
+  </scroll-view>  
+  <view class="body-view">  
+    <loading hidden="{{hidden}}" bindchange="loadingChange">  
+      加载中...  
+    </loading>  
+  </view>  
+</view>

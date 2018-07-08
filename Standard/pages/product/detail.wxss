@@ -1,0 +1,65 @@
+/* pages/product/detail.wxss */
+
+.content{
+  width:96%;
+  margin:10px 2% 100px 2%;
+}
+.content .title{
+  display: block;
+  width:90%;
+  padding:15px 5%;
+  text-align: center;
+  font-size: 20px;
+  color:#3eb4fa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.content .info{
+  display: block;
+  width:100%;
+  padding:15px 0;
+  text-align: right;
+  font-size: 14px;
+  color:#e3e3e3;
+}
+.content .wxParse-p{
+  width:96%;
+  margin:10px 2%;
+  font-size: 14px;
+}
+.content .wxParse-p image{
+  float:left;
+}
+
+.search{
+  width:96%;
+  margin:5px 2% 10px 2%;
+  text-align: center;
+}
+.search form{
+  display:block;
+  width:90%;
+  margin:5px auto 5px auto;
+  text-align: center;
+  }
+.search input{
+  float:left;
+  width:200px;
+  margin-right:5px;
+  text-align: left;
+  padding:0px 5px;
+  font-size: 13px;
+  height:25px;
+  line-height: 25px;
+  border:1px solid #f3f3f3;
+}
+.search button{
+  float:left;
+  width:80px;
+  margin:0;
+  padding:2rpx;
+  font-size: 13px;
+  height:28px;
+  line-height: 28px;
+}

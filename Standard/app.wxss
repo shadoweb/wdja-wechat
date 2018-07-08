@@ -1,0 +1,38 @@
+/**app.wxss**/
+@import "/pages/wxParse/wxParse.wxss";
+
+.search{
+  z-index: 999;
+  width:96%;
+  padding:5px 2% 10px 2%;
+  text-align: center;
+  background-color: #fff;
+}
+.search form{
+  display:block;
+  width:90%;
+  margin:5px auto 5px auto;
+  text-align: center;
+  }
+.search input{
+  float:left;
+  width:65%;
+  min-width:160px;
+  margin-right:0px;
+  text-align: left;
+  padding:0px 5px;
+  font-size: 15px;
+  height:35px;
+  line-height: 35px;
+  border:1px solid #f3f3f3;
+}
+.search button{
+  float:right;
+  width:30%;
+  min-width:80px;
+  margin:0;
+  padding:2rpx;
+  font-size: 15px;
+  height:36px;
+  line-height: 36px;
+}

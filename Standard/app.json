@@ -1,0 +1,27 @@
+{
+  "miniprogramRoot": "./",
+  "pages":[
+    "pages/index/index",
+    "pages/aboutus/index",
+    "pages/news/index",
+    "pages/news/detail",
+    "pages/news/search",
+    "pages/product/index",
+    "pages/product/detail",
+    "pages/product/search",
+    "pages/contact/index"
+  ],
+  "window":{
+    "enablePullDownRefresh": false,
+    "backgroundColor":"#F6F6F6",
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#3eb4fa",
+    "navigationBarTitleText": "WDJA网站管理系统",
+    "navigationBarTextStyle":"#fff"
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true
+}

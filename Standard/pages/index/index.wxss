@@ -1,0 +1,171 @@
+/* pages/index/index.wxss */
+.slide-image{
+  width:100%;
+}
+.nav{
+  width:96%;
+  display:block;
+  margin:5px 2%;
+  /*padding:10px 0;*/
+  height:63px;
+  font-size: 14px;
+  overflow: hidden;
+  /*background-color: #cdcdcd;*/
+}
+.nav view{
+  float:left;
+  width:25%;
+  padding:10px 0;
+  font-size:12px;
+  text-align:center;
+}
+.nav view image{
+  width:50rpx;
+  text-align: center;
+}
+.nav text{
+  float:left;
+  width:100%;
+  text-align: center;
+  color:#3eb4fa;
+  display: block;
+}
+.product_title,.aboutus_title,.news_title,.contact_title{
+  width:96%;
+  margin:5px 2%;
+  display: block;
+  text-align: left;
+  height:25px;
+  line-height: 25px;
+  font-size: 14px;
+  border-bottom:1px solid #3eb4fa;
+  background-color: #fff;
+  overflow: hidden;
+}
+.product_title .title,.aboutus_title .title,.news_title .title,.contact_title .title{
+  background-color: #3eb4fa;
+  color:#fff;
+  padding:3px 5px;
+}
+.product_title .more,.aboutus_title .more,.news_title .more,.contact_title .more{
+  float:right;
+  font-size: 12px;
+  color:#666;
+  padding:3px 5px;
+}
+.product{
+  width:47%;
+  margin-left:2%;
+  float:left;
+}
+.product text{
+  display: block;
+  width:90%;
+  margin-bottom:5px;
+  padding:2px 5%;
+  text-align: center;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.aboutus{
+  width:96%;
+  margin:2px 2%;
+  text-align:center;
+}
+.aboutus text{
+color:#666;
+font-weight: bold;
+text-align:center;
+}
+.aboutus .wxParse-p{
+  padding:5px;
+  text-align: left;
+  line-height: 1.2;
+  font-size: 13px;
+}
+.aboutus .wxParse-p .WxEmojiView{
+  line-height: 1.3;
+  font-size: 12px;
+}
+.aboutus .wxParse-p image{
+  float:left;
+  margin:0 5px 5px 0;
+}
+.news{
+  width:96%;
+  margin:2px 2%;
+}
+.news .list{
+  width:98%;
+  margin:5px 1% 0 1%;
+  font-size: 13px;
+  padding-bottom: 4px;
+  border-bottom:1px solid #e3e3e3;
+}
+.news .list view{
+  float:left;
+  width:70%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.news .list .time{
+  float:right;
+  width:30%;
+  text-align: right;
+}
+.contact{
+  width:96%;
+  margin:2px 2%;
+  margin-bottom:50px;
+}
+.contact form{
+  display:block;
+  width:80%;
+  margin:13px auto 25px auto;
+  text-align: center;
+  }
+.contact .field{
+  width:100%;
+  margin:3px auto 5px auto;
+  display:block;
+}
+.contact label{
+  float:left;
+  width:50px;
+  text-align: left;
+  font-size: 13px;
+  height:22px;
+  line-height: 22px;
+}
+.contact input{
+  float:left;
+  width:150px;
+  text-align: left;
+  margin-left:5px;
+  padding:0px 5px;
+  font-size: 13px;
+  height:15px;
+  line-height: 15px;
+  border:1px solid #f3f3f3;
+}
+.contact textarea{
+  float:left;
+  width:150px;
+  text-align: left;
+  margin-left:5px;
+  padding:0px 5px;
+  font-size: 13px;
+  height:100px;
+  border:1px solid #f3f3f3;
+}
+.contact button{
+  width:80px;
+  font-size: 13px;
+  height:22px;
+  line-height: 22px;
+}
+
