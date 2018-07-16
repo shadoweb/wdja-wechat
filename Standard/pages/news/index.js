@@ -12,6 +12,7 @@ var GetList = function (that) {
     data: {
       type: 'list',
       module: 'wechat/news',
+      classid: wx.getStorageSync('ncid'),
       page: page,
       page_size: page_size
     },
@@ -20,7 +21,7 @@ var GetList = function (that) {
       'Accept': 'application/json'
     },
     success: function (res) {
-      //console.log(that.data)
+      console.log(res.data)
       var list = that.data.list;
       res.data.forEach((item) => {
         item.time = item.time.substring(0, 10)
@@ -45,6 +46,16 @@ Page({
   /**
    * 页面的初始数据
    */
+  onShareAppMessage: function () {
+    var bpages = getCurrentPages()
+    var bcurrentPage = bpages[bpages.length - 1]
+    var burl = bcurrentPage.route
+    return {
+      title: getApp().globalData.news,
+      path: burl,//'/pages/index/index'
+    }
+  },
+
   data: {
     url: getApp().globalData.url,
     //配置tabBar
@@ -57,7 +68,12 @@ Page({
 
   },
 
-  onLoad: function () {
+  //onLoad: function () {
+    onLoad: function (options) {
+      var cid = options.classid
+      var cname = options.name
+      wx.setStorage({ key: "ncid", data: cid });//存储到本地
+      wx.setStorage({ key: "ncname", data: cname });//存储到本地
     //  这里要非常注意，微信的scroll-view必须要设置高度才能监听滚动事件，所以，需要在页面的onLoad事件中给scroll-view的高度赋值
     var that = this;
     if (that.data.list.length == 0) { page = 1 }//重新打开时,重置page为1
@@ -72,6 +88,24 @@ Page({
     }),
       wx.setNavigationBarTitle({
         title: '新闻中心'
+      }),
+      wx.request({
+        url: getApp().globalData.url + '/api.php',
+        method: 'GET',
+        data: {
+          type: 'sort',
+          module: 'wechat/news',
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        success: function (res) {
+          console.log(res.data)
+          that.setData({
+            sort: res.data
+          })
+        }
       })
   },
 
@@ -143,7 +177,13 @@ tourl: function (e) {
   wx.redirectTo({
     url: "../.." + url
   })
-},
+  },
+  tosort: function (e) {
+    var url = e.currentTarget.dataset.url;
+    wx.redirectTo({
+      url: "../.." + url
+    })
+  },
 
 
 })

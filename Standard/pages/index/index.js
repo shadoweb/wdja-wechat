@@ -5,10 +5,12 @@ Page({
    * 页面的初始数据
    */
   onShareAppMessage: function () {
+    var bpages = getCurrentPages()
+    var bcurrentPage = bpages[bpages.length - 1]
+    var burl = bcurrentPage.route
     return {
       title: getApp().globalData.title,
-      desc: 'WDJA网站内容管理系统',
-      path: '/pages/index/index'
+      path: burl,//'/pages/index/index'
     }
   },
   data: {
@@ -47,19 +49,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    //console.log(getApp().globalData.appid)
     var that = this
     wx.request({
       url: getApp().globalData.url + '/api.php',
       method: 'GET',
-      data: {},
+      data: {
+        appid: getApp().globalData.appid
+      },
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json'
       },
       success: function (res) {
-        console.log(res.data)
+        //console.log(res.data)
         res.data.news.forEach((item) => {
           item.time = item.time.substring(0, 10)
+          item.topic = item.topic.substring(0, 30)
         })
         that.setData({
           slide: res.data.slide,
@@ -89,14 +95,14 @@ Page({
     //console.log(e.detail.value);
     var that = this;
     that.setData({
-      content: e.detail.value
+      info: e.detail.value
     });
   },
   bindTextAreaFocus: function (e) {
     //console.log(e.detail.value);
     var that = this;
     that.setData({
-      content: e.detail.value
+      info: e.detail.value
     });
   },
   formSubmit: function (e) {
@@ -119,7 +125,7 @@ Page({
           qq: e.detail.value.qq,
           email: e.detail.value.email,
           topic: e.detail.value.topic,
-          content: e.detail.value.content
+          info: e.detail.value.info
         },
         header: {
           "Content-Type": "application/x-www-form-urlencoded",

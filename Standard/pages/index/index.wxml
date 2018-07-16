@@ -52,8 +52,13 @@
 <view class="news_title"><text class="title">新闻资讯</text><text bindtap="tourl" data-url="/pages/news/index" class="more">更多>></text></view>
 <view class="news" wx:for="{{news}}" wx:for-item="newss" wx:key="a" wx:for-index="idx">
    <view class="list" >
-   <view bindtap="tourl" data-url="/pages/news/detail?id={{newss.nid}}&name={{newss.topic}}" ><text class="title">{{newss.topic}}</text></view>
-   <text class="time">{{newss.time}}</text>
+   <view class="left" bindtap="tourl" data-url="/pages/news/detail?id={{newss.nid}}&name={{newss.topic}}" >
+      <image class="img" src="{{url}}{{newss.image}}" mode="widthFix"></image>
+   </view>
+   <view class="right" bindtap="tourl" data-url="/pages/news/detail?id={{newss.nid}}&name={{newss.topic}}" >
+      <text class="title">{{newss.topic}}</text>
+      <text class="time">{{newss.time}}</text>
+   </view>
    </view>
  </view>
 <view class="aboutus_title"><text class="title">关于我们</text><text bindtap="tourl" data-url="/pages/aboutus/index" class="more">更多>></text></view>
@@ -78,7 +83,7 @@
         </view>
         <view class="field clearfix">
             <label for="name">备注</label>
-                <input id="name" name="content" hidden="true" value="{{content}}" />
+                <input id="name" name="info" hidden="true" value="{{info}}" />
                 <textarea  bindblur="bindTextAreaBlur" bindfocus="bindTextAreaFocus"  name="textarea" placeholder="请输入您的需求" value='{{form_info}}'/>
         </view>
         <view class="field clearfix">

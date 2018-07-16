@@ -16,7 +16,7 @@
   }
 .search input{
   float:left;
-  width:65%;
+  width:60%;
   min-width:160px;
   margin-right:0px;
   text-align: left;

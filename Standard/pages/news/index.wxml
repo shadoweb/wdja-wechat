@@ -1,25 +1,33 @@
 <!--pages/news/index.wxml-->
-<import src="../../pages/wxParse/wxParse.wxml"/>
+<import src="../../pages/wxParse/wxParse.wxml" />
 <import src="../../pages/template/tabBar.wxml" />
 <template is="tabBar" data="{{tabBar: tabBar}}" />
 <view class="container">
- <view class="search">
-  <form bindsubmit="search">
-    <input id="keywords" name="keywords" class="search-input" type="text" placeholder="请输入搜索词" />
-    <button class="btn"  formType="submit">新闻搜索</button>
-  </form>
- </view>
-  <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;"  
-    class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll" >  
-    <view class="item" wx:for="{{list}}" wx:key="aa">  
-        <!--image class="img" src="{{url}}/{{item.image}}" mode="widthFix"></image-->
-      <view bindtap="tourl" data-url="/pages/news/detail?id={{item.nid}}&name={{item.topic}}"><text class="title">{{item.topic}}</text><text class="time">{{item.time}}</text>
+  <view class="search">
+    <form bindsubmit="search">
+      <input id="keywords" name="keywords" class="search-input" type="text" placeholder="请输入搜索词" />
+      <button class="btn" formType="submit">新闻搜索</button>
+    </form>
+  </view>
+  <view class="sort">
+    <view class="class" wx:for="{{sort}}" wx:for-item="sort" wx:key="a" wx:for-index="idx">
+      <view class="name" bindtap="tourl" data-url="/pages/news/index?classid={{sort.sortid}}&name={{sort.sort}}">{{sort.sort}}</view>
+    </view>
+  </view>
+  <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;" class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll">
+    <view class="item" wx:for="{{list}}" wx:key="aa">
+      <view class="left" bindtap="tourl" data-url="/pages/news/detail?id={{item.nid}}&name={{item.topic}}">
+        <image class="img" src="{{url}}{{item.image}}" mode="widthFix"></image>
+      </view>
+      <view class="right" bindtap="tourl" data-url="/pages/news/detail?id={{item.nid}}&name={{item.topic}}">
+        <text class="title">{{item.topic}}</text>
+        <text class="time">{{item.time}}</text>
       </view>
     </view>
-  </scroll-view>  
-  <view class="body-view">  
-    <loading hidden="{{hidden}}" bindchange="loadingChange">  
-      加载中...  
-    </loading>  
-  </view>  
-</view>  
+  </scroll-view>
+  <view class="body-view">
+    <loading hidden="{{hidden}}" bindchange="loadingChange">
+      加载中...
+    </loading>
+  </view>
+</view>

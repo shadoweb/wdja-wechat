@@ -5,6 +5,16 @@ Page({
   /**
    * 页面的初始数据
    */
+  onShareAppMessage: function () {
+    var bpages = getCurrentPages()
+    var bcurrentPage = bpages[bpages.length - 1]
+    var burl = bcurrentPage.route
+    return {
+      title: getApp().globalData.aboutus,
+      path: burl,//'/pages/index/index'
+    }
+  },
+
   data: {
     url: getApp().globalData.url,
   //配置tabBar

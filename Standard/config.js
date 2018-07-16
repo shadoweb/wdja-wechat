@@ -5,13 +5,24 @@
  */
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
+var appid = "wx0a9e41cd4c4f4502";
 var host = 'https://wdja.cn';
-
+var title = 'WDJA网站内容管理系统';
+var aboutus = '关于我们';
+var contact = '联系我们';
+var news = '新闻资讯';
+var product = '产品中心';
 var config = {
 
     // 下面的地址配合云端 Demo 工作
     service: {
+        appid,
         host,
+        title,
+        aboutus,
+        contact,
+        news,
+        product,
         // 登录地址，用于建立会话
         loginUrl: `${host}/weapp/login`,
 

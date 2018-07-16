@@ -7,11 +7,10 @@ Page({
   onShareAppMessage: function () {
     var bpages = getCurrentPages()
     var bcurrentPage = bpages[bpages.length - 1]
-    var burl = bcurrentPage.route + '?id=' + wx.getStorageSync('nid')
+    var burl = bcurrentPage.route + '?id=' + wx.getStorageSync('nid') + '&name=' + wx.getStorageSync('nname')
     console.log(burl);
     return {
-      title: getApp().globalData.title,
-      desc: wx.getStorageSync('nname'),
+      title: wx.getStorageSync('nname'),
       path: burl
     }
   },

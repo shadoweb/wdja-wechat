@@ -2,7 +2,6 @@
 <import src="../../pages/wxParse/wxParse.wxml"/>
 <import src="../../pages/template/tabBar.wxml" />
 <template is="tabBar" data="{{tabBar: tabBar}}" />
-
 <view class="container">
  <view class="search">
   <form bindsubmit="search">
@@ -10,6 +9,11 @@
     <button class="btn"  formType="submit">产品搜索</button>
   </form>
  </view>
+  <view class="sort">
+    <view class="class" wx:for="{{sort}}" wx:for-item="sort" wx:key="a" wx:for-index="idx">
+      <view class="name" bindtap="tourl" data-url="/pages/product/index?classid={{sort.sortid}}&name={{sort.sort}}">{{sort.sort}}</view>
+    </view>
+  </view>
   <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;"  
     class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll" >
     <view class="item" wx:for="{{list}}" wx:key="aa">
@@ -19,9 +23,9 @@
       <text class="title">{{item.topic}}</text>
     </view>
   </scroll-view>
-  <view class="body-view">  
+  <view class="body-view">
     <loading hidden="{{hidden}}" bindchange="loadingChange">  
       加载中...  
-    </loading>  
+    </loading>
   </view>  
 </view>
