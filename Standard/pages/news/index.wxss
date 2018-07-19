@@ -3,22 +3,6 @@
   position: fixed;
   top:0;
 }
-.sort{
-  width:96%;
-  margin:55px 2% 5px 2%;
-  height:35px;
-  line-height: 35px;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-.sort .class{
-  width:65px;
-  float:left;
-}
-.sort .class .name{
-  width:100%;
-  font-size:14px;
-}
 .list{
   width:96%;
   margin:15px 2% 50px 2%;

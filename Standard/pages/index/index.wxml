@@ -68,14 +68,14 @@
  </view>
 <view class="contact_title"><text class="title">在线留言</text></view>
 <view class="contact">
-    <form bindsubmit="formSubmit">
+    <form bindsubmit="formSubmit" report-submit="true">
         <view class="field clearfix">
-            <label for="name">标题</label>
-            <input id="name" name="topic" class="login-input" type="text" placeholder="请输入标题" value='{{form_info}}'/>
+            <label for="name">联系人</label>
+            <input id="name" name="name" class="login-input" type="text" placeholder="请输入联系人" value='{{form_info}}'/>
         </view>
         <view class="field clearfix">
-            <label for="name">QQ号</label>
-            <input id="name" name="qq" class="login-input" type="text" placeholder="请输入QQ号" value='{{form_info}}'/>
+            <label for="name">手机号</label>
+            <input id="name" name="mobile" class="login-input" type="text" placeholder="请输入手机号" value='{{form_info}}'/>
         </view>
         <view class="field clearfix">
             <label for="name">Email</label>

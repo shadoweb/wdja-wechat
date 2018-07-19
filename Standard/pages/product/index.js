@@ -1,4 +1,8 @@
 // pages/news/index.js
+import { String } from '../../utils/util.js';
+import {
+  request
+} from '../../utils/wxRequest';
 var WxParse = require('../../pages/wxParse/wxParse.js');
 var page = 1;
 var page_size = 10;
@@ -6,7 +10,7 @@ var GetList = function(that){
   that.setData({
     hidden:false
   });
-  wx.request({
+  request({
     url: getApp().globalData.url + '/api.php',
     method: 'GET',
     data:{
@@ -20,23 +24,23 @@ var GetList = function(that){
         'content-type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json'
       },
-      success: function (res) {
-      console.log(that.data)
+  })
+    .then(function (res) {
       var list = that.data.list;
-      if (that.data.hidden == false){
+      if (that.data.hidden == false) {
         for (var i = 0; i < res.data.length; i++) {
-            list.push(res.data[i])
+          list.push(res.data[i])
         }
         that.setData({
           list: list
         });
-          page++;
+        page++;
       }
       that.setData({
-        hidden:true
+        hidden: true
       });
     }
-  });
+  )
 }
 
 Page({
@@ -65,18 +69,18 @@ Page({
 
   },
 
-  //onLoad: function () {
-    onLoad: function (options) {
+  onLoad: function (options) {
+    if (!String.isBlank(options)) {
       var cid = options.classid
       var cname = options.name
       wx.setStorage({ key: "pcid", data: cid });//存储到本地
       wx.setStorage({ key: "pcname", data: cname });//存储到本地
+    }
   //  这里要非常注意，微信的scroll-view必须要设置高度才能监听滚动事件，所以，需要在页面的onLoad事件中给scroll-view的高度赋值
     var that = this;
     if (that.data.list.length == 0) { page = 1 }//重新打开时,重置page为1
    wx.getSystemInfo({  
-     success:function(res){  
-       console.info(res.windowHeight);
+     success:function(res){
        that.setData({  
          scrollHeight:res.windowHeight  
        });  
@@ -85,7 +89,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '产品中心'
      }),
-     wx.request({
+     request({
        url: getApp().globalData.url + '/api.php',
        method: 'GET',
        data: {
@@ -96,13 +100,13 @@ Page({
          'content-type': 'application/x-www-form-urlencoded',
          'Accept': 'application/json'
        },
-       success: function (res) {
-         console.log(res.data)
-         that.setData({
-           sort: res.data
-         })
-       }
      })
+     .then(function (res) {
+       that.setData({
+         sort: res.data
+       })
+     }
+     )
  },  
  
   /**

@@ -1,16 +1,19 @@
 // pages/index/index.js
-var WxParse = require('../../pages/wxParse/wxParse.js');
+import {
+  request
+} from '../../utils/wxRequest';
+var WxParse = require('../../pages/wxParse/wxParse');
 Page({
   /**
    * 页面的初始数据
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     var bpages = getCurrentPages()
     var bcurrentPage = bpages[bpages.length - 1]
     var burl = bcurrentPage.route
     return {
       title: getApp().globalData.title,
-      path: burl,//'/pages/index/index'
+      path: burl, //'/pages/index/index'
     }
   },
   data: {
@@ -41,45 +44,44 @@ Page({
     mproduct: '产品',
     mnews: '新闻',
     mcontact: '联系',
-    content:'未录入数据',
-    
-  },  
+    content: '未录入数据',
+
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
-    //console.log(getApp().globalData.appid)
+  onLoad: function() {
     var that = this
-    wx.request({
-      url: getApp().globalData.url + '/api.php',
-      method: 'GET',
-      data: {
-        appid: getApp().globalData.appid
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
-      },
-      success: function (res) {
-        //console.log(res.data)
+    request({
+        url: getApp().globalData.url + '/api.php',
+        method: 'GET',
+        data: {
+          appid: getApp().globalData.appid
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+      })
+      .then(function(res) {
         res.data.news.forEach((item) => {
-          item.time = item.time.substring(0, 10)
-          item.topic = item.topic.substring(0, 30)
-        })
-        that.setData({
-          slide: res.data.slide,
-          product: res.data.product,
-          aboutus: res.data.aboutus,
-          contact: res.data.contact,
-          news: res.data.news
-        })
-        WxParse.wxParse('content', 'html', res.data.aboutus[0]['content'], that, 5);
-      }
-    }),
-//获取用户授权
+            item.time = item.time.substring(0, 10)
+            item.topic = item.topic.substring(0, 30)
+          }),
+          that.setData({
+            slide: res.data.slide,
+            product: res.data.product,
+            aboutus: res.data.aboutus,
+            contact: res.data.contact,
+            news: res.data.news
+          }),
+          WxParse.wxParse('content', 'html', res.data.aboutus[0]['content'], that, 5)
+      })
+    //.catch(error => console.error(error))
+    //获取用户授权
     wx.getUserInfo({
-      success: function (res) {
+      success: function(res) {
         var userInfo = res.userInfo //用户基本信息
         var nickName = userInfo.nickName //用户名
         var avatarUrl = userInfo.avatarUrl //头像链接
@@ -91,76 +93,84 @@ Page({
     })
   },
 
-  bindTextAreaBlur: function (e) {
+  bindTextAreaBlur: function(e) {
     //console.log(e.detail.value);
     var that = this;
     that.setData({
       info: e.detail.value
     });
   },
-  bindTextAreaFocus: function (e) {
+  bindTextAreaFocus: function(e) {
     //console.log(e.detail.value);
     var that = this;
     that.setData({
       info: e.detail.value
     });
   },
-  formSubmit: function (e) {
+  formSubmit: function(e) {
     var that = this;
-    if (e.detail.value.qq.length == 0) {
+    //console.log(e.detail.formId)
+    if (e.detail.value.mobile.length == 0) {
       wx.showToast({
-        title: 'QQ号码不得为空!',
+        title: '手机号码不得为空!',
         icon: 'loading',
         duration: 1500
       })
-      setTimeout(function () {
+      setTimeout(function() {
         wx.hideToast()
       }, 2000)
     } else {
-      wx.request({
-        url: getApp().globalData.url + '/api.php',
-        method: "GET",
-        data: {
-          type: 'form',
-          qq: e.detail.value.qq,
-          email: e.detail.value.email,
-          topic: e.detail.value.topic,
-          info: e.detail.value.info
-        },
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          'Accept': 'application/json'
-        },
-        success: function (res) {
-          //console.log(res.data)
-          if (res.data.status == 0) {
-            wx.showToast({
-              title: res.data.title,
-              icon: 'loading',
-              duration: 1500
+      wx.login({
+        success: function(res) {
+          request({
+              url: getApp().globalData.url + '/api.php',
+              method: "GET",
+              data: {
+                type: 'form',
+                mobile: e.detail.value.mobile,
+                email: e.detail.value.email,
+                name: e.detail.value.name,
+                info: e.detail.value.info,
+                formid: e.detail.formId,
+                code: res.code
+              },
+              header: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                'Accept': 'application/json'
+              }
             })
-          } else {
-            wx.showToast({
-              title: res.data.title,//这里打印出登录成功
-              icon: 'success',
-              duration: 1000
-            }),
-             that.setData({
-              form_info: ''
+            .then(function(res) {
+              console.log(res)
+              if (res.data.status == 0) {
+                wx.showToast({
+                  title: res.data.title,
+                  icon: 'loading',
+                  duration: 1500
+                })
+              } else {
+                wx.showToast({
+                    title: res.data.title,
+                    icon: 'success',
+                    duration: 1000
+                  }),
+                  that.setData({
+                    form_info: ''
+                  })
+              }
             })
-          }
         }
       })
+
     }
   },
-  search: function (e) {
+  search: function(e) {
     if (e.detail.value.keywords.length == 0) {
       wx.showToast({
         title: '搜索词不得为空!',
         icon: 'loading',
         duration: 1500
       })
-      setTimeout(function () {
+      setTimeout(function() {
         wx.hideToast()
       }, 2000)
     } else {
@@ -172,7 +182,7 @@ Page({
       })
     }
   },
-  imageLoad: function (e) {
+  imageLoad: function(e) {
     //获取图片真实宽度  
     var imgwidth = e.detail.width,
       imgheight = e.detail.height,
@@ -189,11 +199,13 @@ Page({
       imgheights: imgheights,
     })
   },
-  bindchange: function (e) {
+  bindchange: function(e) {
     //console.log(e.detail.current)
-    this.setData({ current: e.detail.current })
+    this.setData({
+      current: e.detail.current
+    })
   },
-  tourl: function (e) {
+  tourl: function(e) {
     var url = e.currentTarget.dataset.url;
     wx.redirectTo({
       url: "../.." + url

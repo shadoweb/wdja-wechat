@@ -1,12 +1,16 @@
 // pages/news/index.js
-var WxParse = require('../../pages/wxParse/wxParse.js');
+import { String } from '../../utils/util.js';
+import {
+  request
+} from '../../utils/wxRequest';
+var WxParse = require('../../pages/wxParse/wxParse');
 var page = 1;
 var page_size = 15;
 var GetList = function (that) {
   that.setData({
     hidden: false
   });
-  wx.request({
+  request({
     url: getApp().globalData.url + '/api.php',
     method: 'GET',
     data: {
@@ -20,26 +24,26 @@ var GetList = function (that) {
       'content-type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
     },
-    success: function (res) {
-      console.log(res.data)
-      var list = that.data.list;
-      res.data.forEach((item) => {
-        item.time = item.time.substring(0, 10)
-      })
-      if (that.data.hidden == false) {
-        for (var i = 0; i < res.data.length; i++) {
-          list.push(res.data[i])
-        }
-        that.setData({
-          list: list
-        });
-        page++;
+  })
+  .then(function (res) {
+    var list = that.data.list;
+    res.data.forEach((item) => {
+      item.time = item.time.substring(0, 10)
+    })
+    if (that.data.hidden == false) {
+      for (var i = 0; i < res.data.length; i++) {
+        list.push(res.data[i])
       }
       that.setData({
-        hidden: true
+        list: list
       });
+      page++;
     }
-  });
+    that.setData({
+      hidden: true
+    });
+  }
+  )
 }
 
 Page({
@@ -69,18 +73,18 @@ Page({
   },
 
   //onLoad: function () {
-    onLoad: function (options) {
+  onLoad: function (options) {
+    if (!String.isBlank(options)) {
       var cid = options.classid
       var cname = options.name
       wx.setStorage({ key: "ncid", data: cid });//存储到本地
       wx.setStorage({ key: "ncname", data: cname });//存储到本地
+    }
     //  这里要非常注意，微信的scroll-view必须要设置高度才能监听滚动事件，所以，需要在页面的onLoad事件中给scroll-view的高度赋值
     var that = this;
     if (that.data.list.length == 0) { page = 1 }//重新打开时,重置page为1
-    //console.log(that.data.list.length)
     wx.getSystemInfo({
       success: function (res) {
-        //console.info(res.windowHeight);
         that.setData({
           scrollHeight: res.windowHeight
         });
@@ -89,7 +93,7 @@ Page({
       wx.setNavigationBarTitle({
         title: '新闻中心'
       }),
-      wx.request({
+      request({
         url: getApp().globalData.url + '/api.php',
         method: 'GET',
         data: {
@@ -100,13 +104,13 @@ Page({
           'content-type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json'
         },
-        success: function (res) {
-          console.log(res.data)
-          that.setData({
-            sort: res.data
-          })
-        }
       })
+      .then(function (res) {
+        that.setData({
+          sort: res.data
+        })
+      }
+      )
   },
 
   /**
@@ -132,23 +136,7 @@ Page({
       }, 350)
     }
     //  该方法绑定了页面滚动时的事件，我这里记录了当前的position.y的值,为了请求数据之后把页面定位到这里来。
-    //console.log(event.detail.scrollTop)
-    //this.setData({
-    //  scrollTop: event.detail.scrollTop
-    //});
   },
-  /*
-   refresh: function (event) {
-     console.log(event)
-     if (event.detail.direction == 'top') { page = 1 }
-    this.setData({
-      list : [],
-      scrollTop : 0,
-      hidden:true
-    });  
-    GetList(this)
-   }, 
-   */
   search: function (e) {
     if (e.detail.value.keywords.length == 0) {
       wx.showToast({

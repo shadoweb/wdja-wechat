@@ -1,4 +1,7 @@
 // pages/news/index.js
+import {
+  request
+} from '../../utils/wxRequest';
 var WxParse = require('../../pages/wxParse/wxParse.js');
 Page({
   /**
@@ -8,7 +11,6 @@ Page({
     var bpages = getCurrentPages()
     var bcurrentPage = bpages[bpages.length - 1]
     var burl = bcurrentPage.route + '?id=' + wx.getStorageSync('nid') + '&name=' + wx.getStorageSync('nname')
-    console.log(burl);
     return {
       title: wx.getStorageSync('nname'),
       path: burl
@@ -30,7 +32,7 @@ Page({
     var that = this
     wx.setStorage({ key: "nid", data: id });//存储到本地
     wx.setStorage({ key: "nname", data: name });//存储到本地
-    wx.request({
+    request({
       url: getApp().globalData.url + '/api.php',
       method: 'GET',
       data: {
@@ -42,14 +44,14 @@ Page({
         'content-type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json'
       },
-      success: function (res) {
-        console.log(res.data)
+    })
+      .then(function (res) {
         that.setData({
           newss: res.data
         })
         WxParse.wxParse('content', 'html', res.data[0]['content'], that, 5);
       }
-    }),
+    )
       wx.setNavigationBarTitle({
         title: name
       }),

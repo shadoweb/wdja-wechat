@@ -1,5 +1,8 @@
 // pages/product/search.js
 import { String } from '../../utils/util.js';
+import {
+  request
+} from '../../utils/wxRequest';
 var WxParse = require('../../pages/wxParse/wxParse.js');
 var page = 1;
 var page_size = 10;
@@ -7,7 +10,7 @@ var GetList = function (that) {
   that.setData({
     hidden: false
   });
-  wx.request({
+  request({
     url: getApp().globalData.url + '/api.php',
     method: 'GET',
     data: {
@@ -21,8 +24,8 @@ var GetList = function (that) {
       'content-type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
     },
-    success: function (res) {
-      console.log(that.data)
+  })
+  .then(function (res) {
       var list = that.data.list;
       res.data.forEach((item) => {
         item.time = item.time.substring(0, 10)
@@ -55,7 +58,7 @@ var GetList = function (that) {
         hidden: true
       });
     }
-  });
+  )
 }
 
 Page({
@@ -76,7 +79,6 @@ Page({
 
 
   onLoad: function (options) {
-    //if (Object.prototype.toString.call(options) != '[object Undefined]') {
       if (!String.isBlank(options)) {
       //通过传入值判断空来确定是否通过搜索框进入搜索页,避免滑动时重新加载搜索页报错
         var keywords = options.keywords;
@@ -89,7 +91,6 @@ Page({
     //这里要非常注意，微信的scroll-view必须要设置高度才能监听滚动事件，所以，需要在页面的onLoad事件中给scroll-view的高度赋值
     wx.getSystemInfo({
       success: function (res) {
-        console.info(res.windowHeight);
         that.setData({
           scrollHeight: res.windowHeight
         });
@@ -123,10 +124,6 @@ Page({
       }, 350)
     }
     //  该方法绑定了页面滚动时的事件，我这里记录了当前的position.y的值,为了请求数据之后把页面定位到这里来。
-    //console.log(event.detail.scrollTop)
-    //this.setData({
-    // scrollTop : event.detail.scrollTop
-    //}); 
   },
   //下拉刷新
   onPullDownRefresh: function () {

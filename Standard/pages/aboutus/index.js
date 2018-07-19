@@ -1,4 +1,7 @@
 // pages/aboutus/index.js
+import {
+  request
+} from '../../utils/wxRequest';
 var WxParse = require('../../pages/wxParse/wxParse.js');
 Page({
 
@@ -26,7 +29,7 @@ Page({
    */
   onLoad: function () {
     var that = this
-    wx.request({
+    request({
       url: getApp().globalData.url + '/api.php',
       method: 'GET',
       data: {
@@ -37,14 +40,14 @@ Page({
         'content-type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json'
       },
-      success: function (res) {
-        console.log(res.data)
-         that.setData({
-           items: res.data
+    })
+      .then(function (res) {
+        that.setData({
+          items: res.data
         })
         WxParse.wxParse('content', 'html', res.data[0]['content'], that, 5);
       }
-    }),
+    )
       wx.setNavigationBarColor({
         frontColor: '#ffffff',
         backgroundColor: '#3eb4fa',
