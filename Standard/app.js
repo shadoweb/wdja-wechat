@@ -5,7 +5,6 @@ App({
     wx.login({
       success: function (res) {
         var code = res.code;
-        wx.setStorage({ key: "wxcode", data: code });//存储到本地
         if (code) {
           //console.log('获取用户登录凭证：' + code);
           // --------- 发送凭证 ------------------
