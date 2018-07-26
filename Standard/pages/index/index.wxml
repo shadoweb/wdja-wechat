@@ -2,6 +2,8 @@
 <import src="../../pages/wxParse/wxParse.wxml"/>
 <import src="../../pages/template/tabBar.wxml" />
 <template is="tabBar" data="{{tabBar: tabBar}}" />
+<import src="../../pages/template/kefu.wxml" />
+<template is="kefu" data="{{kefu: kefu}}" />
 <swiper
     indicator-dots="{{indicatorDots}}"
     autoplay="{{autoplay}}"

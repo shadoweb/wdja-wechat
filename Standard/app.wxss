@@ -56,3 +56,31 @@ border-bottom:1px solid #3eb4fa;
   width:100%;
   font-size:14px;
 }
+.kefu{
+  z-index:9999;
+  width:60px;
+  position:fixed;
+  bottom: 60px;
+  right:15px;
+  background-color: transparent;
+  display: block;
+}
+.kf_button{
+  background-color: transparent;
+}
+.kf_button::after{
+  border: 0px;
+}
+.kf_image{
+  z-index: 9999;
+  width: 50px;
+  text-align: center;
+  display:block;
+}
+.kf_text{
+  z-index: 99999;
+  width: 50px;
+  text-align: center;
+  font-size: 12px;
+  display:block;
+}

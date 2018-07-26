@@ -1,0 +1,8 @@
+<template name="kefu">
+<view class="kefu">
+<button class="kf_button" open-type="contact" session-from="weapp">
+    <image mode="widthFix" class="kf_image" src="../../pages/template/img/kefu.png"></image>
+    <text class="kf_text">客服</text>
+</button>
+</view>
+</template>

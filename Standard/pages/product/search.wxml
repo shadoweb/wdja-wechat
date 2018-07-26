@@ -2,7 +2,8 @@
 <import src="../../pages/wxParse/wxParse.wxml"/>
 <import src="../../pages/template/tabBar.wxml" />
 <template is="tabBar" data="{{tabBar: tabBar}}" />
-
+<import src="../../pages/template/kefu.wxml" />
+<template is="kefu" data="{{kefu: kefu}}" />
 <view class="container">  
   <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;"  
     class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll" >  

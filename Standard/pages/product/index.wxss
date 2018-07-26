@@ -20,6 +20,7 @@ display:block;
 }
 .item image{
   width:100%;
+  z-index: 99;
 }
 .item text{
   display: block;
