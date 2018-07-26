@@ -1,8 +1,8 @@
 // pages/index/index.js
-import {
-  request
-} from '../../utils/wxRequest';
 var WxParse = require('../../pages/wxParse/wxParse');
+import {Promisify} from '../../utils/Promisify';
+const request = Promisify(wx.request);
+const getUserInfo = Promisify(wx.getUserInfo);
 Page({
   /**
    * 页面的初始数据
@@ -45,7 +45,6 @@ Page({
     mnews: '新闻',
     mcontact: '联系',
     content: '未录入数据',
-
   },
 
   /**
@@ -80,17 +79,19 @@ Page({
       })
     //.catch(error => console.error(error))
     //获取用户授权
-    wx.getUserInfo({
-      success: function(res) {
-        var userInfo = res.userInfo //用户基本信息
-        var nickName = userInfo.nickName //用户名
-        var avatarUrl = userInfo.avatarUrl //头像链接
-        var gender = userInfo.gender //性别 0：未知、1：男、2：女
-        var province = userInfo.province //所在省
-        var city = userInfo.city //所在市
-        var country = userInfo.country //所在国家
-      }
+    getUserInfo({
     })
+      .then(function (res) {
+          var userInfo = res.userInfo //用户基本信息
+          var nickName = userInfo.nickName //用户名
+          var avatarUrl = userInfo.avatarUrl //头像链接
+          var gender = userInfo.gender //性别 0：未知、1：男、2：女
+          var province = userInfo.province //所在省
+          var city = userInfo.city //所在市
+          var country = userInfo.country //所在国家,
+          //console.log(userInfo)
+        }
+    )
   },
 
   bindTextAreaBlur: function(e) {
@@ -140,7 +141,7 @@ Page({
               }
             })
             .then(function(res) {
-              console.log(res)
+              //console.log(res)
               if (res.data.status == 0) {
                 wx.showToast({
                   title: res.data.title,

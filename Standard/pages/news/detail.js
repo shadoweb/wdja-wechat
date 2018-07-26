@@ -1,8 +1,7 @@
 // pages/news/index.js
-import {
-  request
-} from '../../utils/wxRequest';
-var WxParse = require('../../pages/wxParse/wxParse.js');
+var WxParse = require('../../pages/wxParse/wxParse');
+import { Promisify } from '../../utils/Promisify';
+const request = Promisify(wx.request);
 Page({
   /**
    * 页面的初始数据

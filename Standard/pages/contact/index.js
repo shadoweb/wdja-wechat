@@ -1,8 +1,7 @@
 // pages/contact/index.js
-import {
-  request
-} from '../../utils/wxRequest';
-var WxParse = require('../../pages/wxParse/wxParse.js');
+var WxParse = require('../../pages/wxParse/wxParse');
+import { Promisify } from '../../utils/Promisify';
+const request = Promisify(wx.request);
 Page({
 
   /**
@@ -14,7 +13,7 @@ Page({
     var burl = bcurrentPage.route
     return {
       title: getApp().globalData.contact,
-      path: burl,//'/pages/index/index'
+      path: burl,
     }
   },
   

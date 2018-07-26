@@ -1,9 +1,8 @@
 // pages/news/index.js
 import { String } from '../../utils/util.js';
-import {
-  request
-} from '../../utils/wxRequest';
-var WxParse = require('../../pages/wxParse/wxParse.js');
+var WxParse = require('../../pages/wxParse/wxParse');
+import { Promisify } from '../../utils/Promisify';
+const request = Promisify(wx.request);
 var page = 1;
 var page_size = 10;
 var GetList = function(that){

@@ -31,6 +31,7 @@
   width:96%;
   margin:10px 2% 100px 2%;
   position: absolute;
+  overflow:hidden;
 }
 .address text{
   margin:5px 0;

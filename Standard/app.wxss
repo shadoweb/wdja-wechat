@@ -1,6 +1,5 @@
 /**app.wxss**/
 @import "/pages/wxParse/wxParse.wxss";
-
 .search{
   z-index: 999;
   width:96%;
