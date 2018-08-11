@@ -1,5 +1,6 @@
 <import src="../../pages/wxParse/wxParse.wxml"/>
 <import src="../../pages/template/tabBar.wxml" />
+<import src="../../pages/template/share.wxml" />
 <template is="tabBar" data="{{tabBar: tabBar}}" />
 <import src="../../pages/template/kefu.wxml" />
 <template is="kefu" data="{{kefu: kefu}}" />
@@ -7,4 +8,5 @@
    <text class="title">{{item.topic}}</text>
    <text class="info">{{item.time}}</text>
    <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
+   <template is="share" data="{{shareHidden: shareHidden,shareImg:shareImg}}" />
  </view>

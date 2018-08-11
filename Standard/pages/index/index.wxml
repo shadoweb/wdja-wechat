@@ -72,6 +72,10 @@
 <view class="contact">
     <form bindsubmit="formSubmit" report-submit="true">
         <view class="field clearfix">
+            <image style="width:100px;" src="{{avatarUrl}}" mode="widthFix"></image>
+           <text>{{nickName}}</text>
+        </view>
+        <view class="field clearfix">
             <label for="name">联系人</label>
             <input id="name" name="name" class="login-input" type="text" placeholder="请输入联系人" value='{{form_info}}'/>
         </view>

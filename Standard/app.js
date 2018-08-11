@@ -1,14 +1,20 @@
 //app.js
+const mtjwxsdk = require('./utils/mtj-wx-sdk.js');//百度统计
 var config = require('./config')
 import { Promisify } from './utils/Promisify';
 const request = Promisify(wx.request);
 const login = Promisify(wx.login);
 const showModal = Promisify(wx.showModal);
+const getUserInfo = Promisify(wx.getUserInfo);
 App({
   onLaunch: function () {
-    login({
-    })
-    .then(function (res) {
+    var that = this
+    if (wx.getStorageSync('sessionid') != ''){
+//存在sessionid,则对比服务器sessionid
+ }else{
+   login({
+
+    }).then(function (res) {
         var code = res.code;
         if (code) {
           request({
@@ -19,14 +25,18 @@ App({
             }
           })
             .then(function (res) {
-                //console.log(res.data)
+              //console.log(res.data)
+                wx.setStorage({ key: "sessionid", data: res.data.sessionid });//存储到本地
+                var openid = res.data.openid;
+                that.globalData.openid = openid;
               }
           )
         } else {
           console.log('获取用户登录态失败：' + res.errMsg);
         }
       }
-    )
+      )
+    }
     //小程序强制更新
     const updateManager = wx.getUpdateManager()
     updateManager.onCheckForUpdate(function (res) {
@@ -62,6 +72,9 @@ App({
   globalData: {
     appid: config.service.appid,
     userInfo: null,
+    openid:null,
+    nickName:null,
+    avatarUrl: null,
     url: config.service.host,
     title: config.service.title,
     aboutus: config.service.aboutus,

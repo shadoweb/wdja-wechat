@@ -1,8 +1,8 @@
 // pages/index/index.js
+import { String } from '../../utils/util.js';
 var WxParse = require('../../pages/wxParse/wxParse');
 import {Promisify} from '../../utils/Promisify';
 const request = Promisify(wx.request);
-const getUserInfo = Promisify(wx.getUserInfo);
 Page({
   /**
    * 页面的初始数据
@@ -52,6 +52,11 @@ Page({
    */
   onLoad: function() {
     var that = this
+    if (String.isBlank(getApp().globalData.userInfo)) {
+      wx.redirectTo({
+        url: "../../pages/index/getuserinfo"
+      })
+    }
     request({
         url: getApp().globalData.url + '/api.php',
         method: 'GET',
@@ -69,6 +74,8 @@ Page({
             item.topic = item.topic.substring(0, 30)
           }),
           that.setData({
+            nickName: getApp().globalData.nickName,
+            avatarUrl: getApp().globalData.avatarUrl,
             slide: res.data.slide,
             product: res.data.product,
             aboutus: res.data.aboutus,
@@ -78,20 +85,7 @@ Page({
           WxParse.wxParse('content', 'html', res.data.aboutus[0]['content'], that, 5)
       })
     //.catch(error => console.error(error))
-    //获取用户授权
-    getUserInfo({
-    })
-      .then(function (res) {
-          var userInfo = res.userInfo //用户基本信息
-          var nickName = userInfo.nickName //用户名
-          var avatarUrl = userInfo.avatarUrl //头像链接
-          var gender = userInfo.gender //性别 0：未知、1：男、2：女
-          var province = userInfo.province //所在省
-          var city = userInfo.city //所在市
-          var country = userInfo.country //所在国家,
-          //console.log(userInfo)
-        }
-    )
+
   },
 
   bindTextAreaBlur: function(e) {

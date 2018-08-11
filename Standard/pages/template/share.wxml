@@ -1,0 +1,27 @@
+<template name="share">
+  <view class="share">
+      <view class="share_left">
+        <button open-type="share" class='sharebtn'>
+          <image src="/pages/template/img/share_weixin.png" class='shareimg' mode="widthFix"></image>
+        <text class='shareText'>转发分享</text>
+        </button>
+      </view>
+      <view class="share_right">
+        <button class='sharebtn' bindtap='share'>
+          <image src="../../pages/template/img/share_quan.png" class='shareimg' mode="widthFix"></image>
+        <text class='shareText'>生成海报</text>
+        </button>
+      </view>
+    </view>
+
+    <!--生成海报  -->
+    <view class='shareimagePathBox' hidden="{{shareHidden}}">
+      <image src="{{shareImg}}" class='sharecreate' mode="widthFix"></image>
+      <button class='sharesave' bindtap='sharesave' data-src="{{shareImg}}">保存海报</button>
+    </view>
+    <view hidden="{{shareHidden}}" class="mask"></view>
+    <view class="canvas-box">
+      <canvas style="width: 375px;height: 567px;position:fixed;top:9999px" canvas-id="shareImg" />
+    </view>
+    <!--生成海报  -->
+</template>

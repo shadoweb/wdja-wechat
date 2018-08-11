@@ -2,6 +2,7 @@
   "miniprogramRoot": "./",
   "pages":[
     "pages/index/index",
+    "pages/index/getuserinfo",
     "pages/aboutus/index",
     "pages/news/index",
     "pages/news/detail",
