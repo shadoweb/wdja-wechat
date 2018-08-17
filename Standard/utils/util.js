@@ -10,54 +10,53 @@ const formatTime = date => {
 }
 
 //将canvas转换为图片保存到本地，然后将图片路径传给image图片的src
-function createNewImg(that, title, info, avatarimg) {
+function createNewImg(that, title, info, name, touxiang) {
   var context = wx.createCanvasContext('shareImg');
-  context.setFillStyle("#ffffff")
-  context.fillRect(0, 0, 375, 567)
+  //context.setFillStyle("#ffffff")
+  //context.fillRect(0, 0, 375, 567)
+  var path1 = "../../pages/template/img/wechatbg.png";
   var path5 = "../../pages/template/img/weixin.png";
-  var name = getApp().globalData.nickName;
+  context.drawImage(path1, 0, 0, 375, 567);
   context.rect(20, 70, 335, 300) //画出矩形
-  //绘制标题
-  context.setFontSize(18);
-  context.setFillStyle('#333333');
-  context.setTextAlign('center');
-  context.fillText(title, 175, 40);
   context.stroke();
+  //绘制标题
+  canvasTextAutoLine(title, context, 30, 35, 24);
   //绘制内容
-  canvasTextAutoLine(info, context,30, 100,24);
+  canvasTextAutoLine(info, context, 30, 100, 24);
   //绘制名字
   context.setFontSize(16);
   context.setFillStyle('#333333');
   context.setTextAlign('center');
-  context.fillText(name, 90, 525);
+  context.fillText(name, 95, 505);
   context.stroke();
   //绘制邀请标语
   context.setFontSize(16);
   context.setFillStyle('#333333');
   context.setTextAlign('center');
-  context.fillText("邀请你一起看一看", 90, 550);
+  context.fillText("邀请你一起看一看", 95, 530);
   context.stroke();
   //绘制二维码标语
   context.setFontSize(18);
   context.setFillStyle('#333333');
   context.setTextAlign('center');
-  context.fillText("长按识别小程序", 280, 540);
+  context.fillText("长按识别小程序", 265, 530);
   context.stroke();
   //绘制小程序二维码
-  context.drawImage(path5, 228, 406, 100, 100);
+  context.drawImage(path5, 215, 386, 100, 100);
   //绘制头像
-  context.arc(86, 456, 50, 0, 2 * Math.PI);
+  context.arc(96, 436, 50, 0, 2 * Math.PI);
   context.strokeStyle = "#ffe200";
   context.clip();
-  context.drawImage(avatarimg, 36, 406, 100, 100);
+  context.drawImage(touxiang, 46, 386, 100, 100);
   context.draw();
   //将生成好的图片保存到本地，需要延迟一会，绘制期间耗时
   setTimeout(function () {
     wx.canvasToTempFilePath({
       canvasId: 'shareImg',
       success: function (res) {
+        var tempFilePath = res.tempFilePath;
         that.setData({
-          shareImg: res.tempFilePath
+          shareImg: tempFilePath
         })
       },
       fail: function (res) {
@@ -78,8 +77,10 @@ function canvasTextAutoLine(str,canvas,initX,initY,lineHeight){
     var lineWidth = 0;
     var canvasWidth = 330;
     var lastSubStrIndex= 0; 
+      ctx.setFontSize(18);
+      ctx.setFillStyle('#333333');
     for(let i=0;i<str.length;i++){ 
-        lineWidth+=ctx.measureText(str[i]).width; 
+      lineWidth += ctx.measureText(str[i]).width;
       if (lineWidth > canvasWidth - initX) {//减去initX,防止边界出现的问题
             ctx.setTextAlign('left');
             ctx.fillText(str.substring(lastSubStrIndex,i),initX,initY);
@@ -87,7 +88,8 @@ function canvasTextAutoLine(str,canvas,initX,initY,lineHeight){
             lineWidth=0;
             lastSubStrIndex=i;
         } 
-        if(i==str.length-1){
+      if (i == str.length - 1) {
+            ctx.setTextAlign('left');
             ctx.fillText(str.substring(lastSubStrIndex,i+1),initX,initY);
         }
     }

@@ -1,4 +1,5 @@
 // pages/news/index.js
+import { String } from '../../utils/util.js';
 var WxParse = require('../../pages/wxParse/wxParse');
 import { Promisify } from '../../utils/Promisify';
 const request = Promisify(wx.request);
@@ -20,6 +21,9 @@ Page({
     url: getApp().globalData.url,
     //配置tabBar
     tabBar: getApp().globalData.tabBar_product,
+    shareHidden: true,
+    name: "",
+    touxiang: ""
 
   }, 
 
@@ -44,11 +48,12 @@ Page({
         'content-type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json'
       },
-
     })
     .then(function (res) {
         that.setData({
-          products: res.data
+          products: res.data,
+          title: res.data[0]['topic'],
+          info: res.data[0]['description']
         })
         WxParse.wxParse('content', 'html', res.data[0]['content'], that, 5);
       },
@@ -65,8 +70,66 @@ Page({
         }
       })
 
+    wx.getUserInfo({
+      success: res => {
+        this.setData({
+          name: res.userInfo.nickName,
+        })
+        wx.downloadFile({
+          url: res.userInfo.avatarUrl,
+          success: function (res) {
+            that.setData({
+              touxiang: res.tempFilePath
+            })
+          }
+        })
+      }
+    })
   },
 
+  //点击生成
+  share: function (e) {
+    var that = this;
+    that.setData({
+      shareHidden: true
+    })
+    wx.showToast({
+      title: '生成中...',
+      icon: 'loading',
+      duration: 1000
+    });
+    setTimeout(function () {
+      wx.hideToast()
+      //that.createNewImg();
+      String.createNewImg(that, that.data.title, that.data.info, that.data.name, that.data.touxiang);
+      that.setData({
+        shareHidden: false,
+      })
+    }, 1000)
+  },
+
+  //点击保存到相册
+  sharesave: function (e) {
+    var that = this
+    wx.saveImageToPhotosAlbum({
+      filePath: e.currentTarget.dataset.src,
+      success(res) {
+        wx.showModal({
+          content: '图片已保存到相册，赶紧晒一下吧~',
+          showCancel: false,
+          confirmText: '好的',
+          confirmColor: '#333',
+          success: function (res) {
+            if (res.confirm) { }
+            that.setData({
+              shareHidden: true
+            })
+          },
+          fail: function (res) { }
+        })
+      }
+    })
+  },
   tourl: function (e) {
     var url = e.currentTarget.dataset.url;
     wx.redirectTo({

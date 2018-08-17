@@ -20,8 +20,9 @@ Page({
     url: getApp().globalData.url,
     //配置tabBar
     tabBar: getApp().globalData.tabBar_news,
-    shareImg: null,
     shareHidden: true,
+    name: "",
+    touxiang: ""
   
   },
 
@@ -77,11 +78,9 @@ Page({
         wx.downloadFile({
           url: res.userInfo.avatarUrl,
           success: function (res) {
-            if (res.statusCode === 200) {
-              that.setData({
-                avatarImg: res.tempFilePath
-              })
-            }
+            that.setData({
+              touxiang: res.tempFilePath
+            })
           }
         })
       }
@@ -97,18 +96,18 @@ Page({
     wx.showToast({
       title: '生成中...',
       icon: 'loading',
-      duration: 3000
+      duration: 1000
     });
     setTimeout(function () {
       wx.hideToast()
       //that.createNewImg();
-      String.createNewImg(that, that.data.title, that.data.info, that.data.avatarImg);
+      String.createNewImg(that, that.data.title, that.data.info, that.data.name, that.data.touxiang);
       that.setData({
         shareHidden: false,
-        shareImg: that.data.shareImg,
       })
-    }, 3000)
+    }, 1000)
   },
+
   //点击保存到相册
   sharesave: function (e) {
     var that = this
@@ -121,13 +120,12 @@ Page({
           confirmText: '好的',
           confirmColor: '#333',
           success: function (res) {
-            if (res.confirm) {
-            }
+            if (res.confirm) { }
             that.setData({
               shareHidden: true
             })
-          }, fail: function (res) {
-          }
+          },
+          fail: function (res) { }
         })
       }
     })
