@@ -3,6 +3,8 @@ import { String } from '../../utils/util.js';
 var WxParse = require('../../pages/wxParse/wxParse');
 import { Promisify } from '../../utils/Promisify';
 const request = Promisify(wx.request);
+const showToast = Promisify(wx.showToast);
+const login = Promisify(wx.login);
 Page({
   /**
    * 页面的初始数据
@@ -40,6 +42,7 @@ Page({
       url: getApp().globalData.url + '/api.php',
       method: 'GET',
       data: {
+        appid: getApp().globalData.appid,
         type: 'detail',
         module: 'wechat/news',
         id: id
@@ -70,26 +73,42 @@ Page({
         }
       })
 
-    wx.getUserInfo({
-      success: res => {
-        this.setData({
-          name: res.userInfo.nickName,
-        })
-        wx.downloadFile({
-          url: res.userInfo.avatarUrl,
-          success: function (res) {
-            that.setData({
-              touxiang: res.tempFilePath
-            })
-          }
-        })
-      }
-    })
   },
 
   //点击生成
   share: function (e) {
     var that = this;
+    if (String.isBlank(getApp().globalData.userInfo)) {
+      showToast({
+        title: '请先登录!',
+        icon: 'loading',
+        duration: 1000
+      }).then(setTimeout(function () {
+        var bpages = getCurrentPages()
+        var bcurrentPage = bpages[bpages.length - 1]
+        var burl = bcurrentPage.route + '?id=' + wx.getStorageSync('nid') + '&name=' + wx.getStorageSync('nname')
+        wx.setStorage({ key: "burl", data: burl });//存储到本地
+        wx.redirectTo({
+          url: "../../pages/index/getuserinfo"
+        })
+      }, 2000)
+      )
+    } else {
+      wx.getUserInfo({
+        success: res => {
+          this.setData({
+            name: res.userInfo.nickName,
+          })
+          wx.downloadFile({
+            url: res.userInfo.avatarUrl,
+            success: function (res) {
+              that.setData({
+                touxiang: res.tempFilePath
+              })
+            }
+          })
+        }
+      })
     that.setData({
       shareHidden: true
     })
@@ -106,6 +125,7 @@ Page({
         shareHidden: false,
       })
     }, 1000)
+  }
   },
 
   //点击保存到相册

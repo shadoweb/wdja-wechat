@@ -44,6 +44,7 @@ Page({
       url: getApp().globalData.url + '/api.php',
       method: 'GET',
       data: {
+        appid: getApp().globalData.appid,
         type:'singlepage',
         module:'wechat/contact'
       },

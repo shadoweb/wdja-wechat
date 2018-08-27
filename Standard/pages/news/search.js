@@ -13,6 +13,7 @@ var GetList = function (that) {
     url: getApp().globalData.url + '/api.php',
     method: 'GET',
     data: {
+      appid: getApp().globalData.appid,
       type: 'search',
       module: 'wechat/news',
       keywords: wx.getStorageSync('keywords'),

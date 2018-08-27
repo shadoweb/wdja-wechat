@@ -71,10 +71,11 @@
 <view class="contact_title"><text class="title">在线留言</text></view>
 <view class="contact">
     <form bindsubmit="formSubmit" report-submit="true">
-        <view class="field clearfix">
-            <image style="width:100px;" src="{{avatarUrl}}" mode="widthFix"></image>
-           <text>{{nickName}}</text>
-        </view>
+        <input id="openid" name="openid" hidden='true' value='{{openid}}'/>
+        <input id="nickName" name="nickName" hidden='true' value='{{nickName}}'/>
+        <input id="avatarUrl" name="avatarUrl" hidden='true' value='{{avatarUrl}}'/>
+        <input id="gender" name="gender" hidden='true' value='{{gender}}'/>
+        <input id="city" name="city" hidden='true' value='{{city}}'/>
         <view class="field clearfix">
             <label for="name">联系人</label>
             <input id="name" name="name" class="login-input" type="text" placeholder="请输入联系人" value='{{form_info}}'/>

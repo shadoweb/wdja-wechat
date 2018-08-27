@@ -7,6 +7,8 @@ import {
   Promisify
 } from '../../utils/Promisify';
 const request = Promisify(wx.request);
+const showToast = Promisify(wx.showToast);
+const login = Promisify(wx.login);
 Page({
 
   /**
@@ -26,8 +28,8 @@ Page({
     url: getApp().globalData.url,
     tabBar: getApp().globalData.tabBar_aboutus,
     shareHidden: true,
-    name:"",
-    touxiang:""
+    name: "",
+    touxiang: ""
   },
   /**
    * 生命周期函数--监听页面加载
@@ -38,6 +40,7 @@ Page({
         url: getApp().globalData.url + '/api.php',
         method: 'GET',
         data: {
+          appid: getApp().globalData.appid,
           type: 'singlepage',
           module: 'wechat/aboutus'
         },
@@ -63,26 +66,42 @@ Page({
       }
     })
 
-    wx.getUserInfo({
-      success: res => {
-        this.setData({
-          name: res.userInfo.nickName,
-        })
-        wx.downloadFile({
-          url: res.userInfo.avatarUrl,
-          success: function(res) {
-              that.setData({
-                touxiang: res.tempFilePath
-              })
-          }
-        })
-      }
-    })
   },
 
   //点击生成
-  share: function (e) {
+  share: function(e) {
     var that = this;
+    if (String.isBlank(getApp().globalData.userInfo)) {
+      showToast({
+        title: '请先登录!',
+        icon: 'loading',
+        duration: 1000
+      }).then(setTimeout(function () {
+        var bpages = getCurrentPages()
+        var bcurrentPage = bpages[bpages.length - 1]
+        var burl = bcurrentPage.route
+        wx.setStorage({ key: "burl", data: burl });//存储到本地
+        wx.redirectTo({
+          url: "../../pages/index/getuserinfo"
+        })
+      }, 2000)
+      )
+    } else {
+      wx.getUserInfo({
+        success: res => {
+          this.setData({
+            name: res.userInfo.nickName,
+          })
+          wx.downloadFile({
+            url: res.userInfo.avatarUrl,
+            success: function (res) {
+              that.setData({
+                touxiang: res.tempFilePath
+              })
+            }
+          })
+        }
+      })
     that.setData({
       shareHidden: true
     })
@@ -91,7 +110,7 @@ Page({
       icon: 'loading',
       duration: 1000
     });
-    setTimeout(function () {
+    setTimeout(function() {
       wx.hideToast()
       //that.createNewImg();
       String.createNewImg(that, that.data.title, that.data.info, that.data.name, that.data.touxiang);
@@ -99,6 +118,7 @@ Page({
         shareHidden: false,
       })
     }, 1000)
+  }
   },
 
   //点击保存到相册
@@ -129,7 +149,7 @@ Page({
       url: "../.." + url
     })
   },
-  onshow:function(){
+  onshow: function() {
     var that = this;
     wx.getUserInfo({
       success: res => {
@@ -138,7 +158,7 @@ Page({
         })
         wx.downloadFile({
           url: res.userInfo.avatarUrl,
-          success: function (res) {
+          success: function(res) {
             that.setData({
               touxiang: res.tempFilePath
             })

@@ -3,6 +3,8 @@ import { String } from '../../utils/util.js';
 var WxParse = require('../../pages/wxParse/wxParse');
 import {Promisify} from '../../utils/Promisify';
 const request = Promisify(wx.request);
+const showToast = Promisify(wx.showToast);
+const login = Promisify(wx.login);
 Page({
   /**
    * 页面的初始数据
@@ -51,16 +53,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function() {
+    console.log(getApp().globalData.userInfo)
+    console.log(getApp().globalData.openid)
+    console.log("登录状态:"+getApp().globalData.wxlogin_code)
     var that = this
-    if (String.isBlank(getApp().globalData.userInfo)) {
-      wx.redirectTo({
-        url: "../../pages/index/getuserinfo"
-      })
-    }
     request({
         url: getApp().globalData.url + '/api.php',
         method: 'GET',
-        data: {
+      data: {
+          appid: getApp().globalData.appid,
           appid: getApp().globalData.appid
         },
         header: {
@@ -74,8 +75,11 @@ Page({
             item.topic = item.topic.substring(0, 30)
           }),
           that.setData({
+            openid: getApp().globalData.openid,
             nickName: getApp().globalData.nickName,
             avatarUrl: getApp().globalData.avatarUrl,
+            gender: getApp().globalData.gender,
+            city: getApp().globalData.city,
             slide: res.data.slide,
             product: res.data.product,
             aboutus: res.data.aboutus,
@@ -104,9 +108,21 @@ Page({
   },
   formSubmit: function(e) {
     var that = this;
+    if (String.isBlank(getApp().globalData.userInfo)) {
+      showToast({
+        title: '请先登录!',
+        icon: 'loading',
+        duration: 1000
+      }).then(setTimeout(function () {
+          wx.redirectTo({
+            url: "../../pages/index/getuserinfo"
+          })
+      }, 2000)
+      )
+    }else{
     //console.log(e.detail.formId)
     if (e.detail.value.mobile.length == 0) {
-      wx.showToast({
+      showToast({
         title: '手机号码不得为空!',
         icon: 'loading',
         duration: 1500
@@ -115,13 +131,19 @@ Page({
         wx.hideToast()
       }, 2000)
     } else {
-      wx.login({
-        success: function(res) {
+      login({
+      }).then(function(res) {
           request({
               url: getApp().globalData.url + '/api.php',
               method: "GET",
               data: {
                 type: 'form',
+                appid: getApp().globalData.appid,
+                openid: e.detail.value.openid,
+                nickName: e.detail.value.nickName,
+                avatarUrl: e.detail.value.avatarUrl,
+                gender: e.detail.value.gender,
+                city: e.detail.value.city,
                 mobile: e.detail.value.mobile,
                 email: e.detail.value.email,
                 name: e.detail.value.name,
@@ -143,20 +165,20 @@ Page({
                   duration: 1500
                 })
               } else {
-                wx.showToast({
+                showToast({
                     title: res.data.title,
                     icon: 'success',
                     duration: 1000
-                  }),
+                  })
                   that.setData({
                     form_info: ''
                   })
               }
             })
-        }
-      })
+        })
 
     }
+  }
   },
   search: function(e) {
     if (e.detail.value.keywords.length == 0) {

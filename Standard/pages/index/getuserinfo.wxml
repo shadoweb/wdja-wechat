@@ -1,9 +1,9 @@
 <view class="container">
   <view class="usermotto">
-    <text class="user-motto">{{title}}</text>
+    <text class="user-motto" style="display:block;width:100%;text-align:center;font-size:15px;margin-top:38px;">{{title}}</text>
   </view>
   <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse && getUserInfoFail}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">获取授权</button>
+    <button style="display:block;width:90px;height:30px;line-height:30px;margin:10px auto;padding:3px 5px;" wx:if="{{!hasUserInfo && canIUse && getUserInfoFail}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">登录</button>
     <block wx:if="{{hasUserInfo}}">
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
